@@ -23,6 +23,7 @@ Route::group(['middleware' => 'cors'], function () {
             Route::get('tags/popular', 'Api\TagController@popular');
 
             Route::get('users', 'Api\UserController@index');
+            Route::get('users/current', 'Api\UserController@current');
             Route::get('users/{user_id}/followers', 'Api\FollowerController@followers');
             Route::get('users/{user_id}/followings', 'Api\FollowerController@followings');
             Route::get('users/{user_id}/follow', 'Api\FollowerController@follow');

@@ -30,6 +30,21 @@ Run the http server
 $ php artisan serve
 ```
 
+Once the server is running is time to run the client. The SPA is build on top of React! In order to build you first need to install the dependencies using `yarn`.
+
+```
+$ cd spa
+$ yarn
+```
+
+Once installed you can run the project with the following command (Inside the `spa` folder):
+
+```
+$ yarn start
+```
+
+The SPA uses Create React App!
+
 ## Features
 [x] Sign up with email
 [x] Login with email
