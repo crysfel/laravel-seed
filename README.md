@@ -39,5 +39,5 @@ $ php artisan serve
 [x] Comment system
 [x] Simple blog
 [x] Social system to follow other users
-[ ] Tag system
+[x] Tag system
 [ ] Assets uploading system
