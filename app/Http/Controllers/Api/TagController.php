@@ -27,13 +27,14 @@ class TagController extends Controller
   }
 
   /**
-   * Display a listing of most used tags in the application
+   * Display a listing of most used tags in the application by
+   * the given namespace, if no namespace is provided it will return all namespaces
    *
    * @return \Illuminate\Http\Response
    */
   public function popular(Request $request)
   {
-    $tags = Tag::popular()->get();
+    $tags = Tag::popular($request->input('namespace'))->get();
 
     return response()->json([
       'success'   => true,

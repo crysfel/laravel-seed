@@ -30,7 +30,11 @@ class Tag extends Model
      * Returns the most used tags across the app, even
      * for different users.
      */
-    public function scopePopular($query) {
+    public function scopePopular($query, $namespace) {
+      if (isset($namespace)) {
+        $query = $query->where('namespace', $namespace);
+      }
+
       return $query->orderBy('tags.count', 'DESC');
     }
 }
