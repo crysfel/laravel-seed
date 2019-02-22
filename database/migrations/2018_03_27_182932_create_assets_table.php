@@ -16,9 +16,9 @@ class CreateAssetsTable extends Migration
         Schema::create('assets', function (Blueprint $table) {
             $table->uuid('id');
             $table->primary('id');
-
-            $table->string('assetable_type')->index();
-            $table->integer('assetable_id')->index();
+            $table->integer('user_id')->unsigned();
+            $table->string('assetable_type')->index()->nullable();
+            $table->integer('assetable_id')->index()->nullable();
             $table->string('name');
             $table->string('original_name');
             $table->string('content_type');
@@ -28,6 +28,8 @@ class CreateAssetsTable extends Migration
             $table->time('duration')->nullable(); //if is an audio or video, save duration
             
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

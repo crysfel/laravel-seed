@@ -20,6 +20,8 @@ Route::group(['middleware' => 'cors'], function () {
         Route::post('auth/login', 'Api\AuthController@authenticate');
 
         Route::group(['middleware' => 'jwt.auth'], function() {
+            Route::post('assets', 'Api\AssetController@store');
+            
             Route::get('tags/popular', 'Api\TagController@popular');
 
             Route::get('users', 'Api\UserController@index');
