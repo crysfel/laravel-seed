@@ -23,9 +23,10 @@ class CreateAssetsTable extends Migration
             $table->string('original_name');
             $table->string('content_type');
             $table->integer('size')->nullable();
-
+            
             $table->text('path');     //The actual location of the file on the server or on S3
             $table->time('duration')->nullable(); //if is an audio or video, save duration
+            $table->integer('public')->default(true);
             
             $table->timestamps();
 

@@ -56,13 +56,13 @@ class AssetRepository {
     $asset = new Asset();
     $asset->id = Uuid::uuid1()->toString();
     $asset->user_id = $user->id;
+    $asset->public = $access == 'public';
     $asset->fill([
       'name'          => $name,
       'original_name' => $file->getClientOriginalName(),
       'path'          => $path,
       'content_type'  => $contentType,
       'size'          => filesize($file),
-      'public'        => $access == 'public',
     ]);
 
     // Check if there's a model

@@ -28,10 +28,34 @@ class Asset extends Model
     protected $hidden = ['assetable_type', 'assetable_id'];
 
     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'public' => 'boolean',
+    ];
+    
+    /**
+     * Get the author of this asset.
+     */
+    public function user() {
+        return $this->belongsTo('App\User');
+    }
+
+    /**
      * Get all of the owning assetable models.
      */
     public function assetable()
     {
         return $this->morphTo();
+    }
+
+    public function scopeAuthor($query, $userId) {
+        return $query->where('assets.user_id', $userId);
+    }
+    
+    public function scopeLatest($query) {
+        return $query->orderBy('assets.created_at', 'DESC');
     }
 }

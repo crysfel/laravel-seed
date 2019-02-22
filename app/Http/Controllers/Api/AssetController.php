@@ -37,6 +37,32 @@ class AssetController extends Controller
   }
 
   /**
+   * List all images for the admin or authors
+   */
+  public function index(Request $request) {
+    $user = $this->guard()->user();
+
+    if ($user->can('index', Asset::class)) {
+      if ($user->admin && $request->has('all')) {
+        $assets = Asset::latest()->paginate();
+      } else {
+        $assets = Asset::author($user->id)->latest()->paginate();
+      }
+
+      return response()->json([
+        'success'   => true,
+        'paginator' => $this->assetSerializer->paginator($assets),
+        'assets'     => $this->assetSerializer->list($assets->items(), ['basic']),
+      ]);
+    }
+
+    return response()->json([
+      'success'   => false,
+      'errors'    => __('You do not have access to this resource'),
+    ], 403);
+  }
+
+  /**
    * Upload a new asset and creates the record in the database
    * 
    * @return \Illuminate\Http\Response
@@ -60,11 +86,12 @@ class AssetController extends Controller
       
       // 3. Upload the file to the selected disk and save it into the database
       $file = $request->file('asset');
+      $path = 'users/'.$user->id.'/assets';
       $asset = $this->assetRepository->save([
         'user' => $user,
-        'path' => 'users/'.$user->id.'/assets',
+        'path' => $request->input('public') == 'true' ? "public/$path" : "private/$path",
         'file' => $file,
-        'access' => $request->file('public') == 'true' ? 'public' : 'private',
+        'access' => $request->input('public') == 'true' ? 'public' : 'private',
       ]);
 
       return response()->json([
